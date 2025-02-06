@@ -1,6 +1,6 @@
-const apiUrl = "https://your-xtream-code-api.com"; // Xtream Codes API URL
-const apiUsername = "username"; // Your Xtream Codes username
-const apiPassword = "password"; // Your Xtream Codes password
+const apiUrl = "http://115.146.176.131"; // Xtream Codes API URL
+const apiUsername = "TimRizal"; // Your Xtream Codes username
+const apiPassword = "TimRizal"; // Your Xtream Codes password
 
 // Function to get the channel list
 async function getChannels() {
