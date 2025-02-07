@@ -1,45 +1,79 @@
-window.addEventListener('DOMContentLoaded', () => {
-    if (typeof channels === "undefined" || Object.keys(channels).length === 0) {
-        console.error("Error: channels.js failed to load or contains no channels.");
-        document.querySelector('.scrollable-grid').innerHTML = "<p class='text-white'>No channels found.</p>";
+document.addEventListener('DOMContentLoaded', () => {
+    if (!window.channels || Object.keys(window.channels).length === 0) {
+        console.error("❌ channels.js failed to load or is empty.");
+        document.getElementById('channelList').innerHTML = "<p style='color: red;'>No channels found.</p>";
         return;
     }
 
-    populateChannels(); 
-    
-    // Automatically load the first channel
-    const defaultChannelKey = Object.keys(channels)[0];
+    populateChannels();
+
+    const defaultChannelKey = Object.keys(window.channels)[0];
     if (defaultChannelKey) {
         loadStream(defaultChannelKey);
     }
 });
 
-function populateChannels() {
-    const channelList = document.querySelector('.scrollable-grid');
+function loadStream(channelKey) {
+    const channel = window.channels[channelKey];
+    const playerContainer = document.getElementById("player");
 
-    if (!channelList) {
-        console.error("Error: Could not find '.scrollable-grid' in the DOM.");
+    if (!channel) {
+        console.error("❌ Channel not found:", channelKey);
         return;
     }
 
-    channelList.innerHTML = ''; // Clear existing content
+    console.log("📺 Loading Channel:", channel.name);
 
-    Object.keys(channels).forEach(key => {
-        const channel = channels[key];
+    // Setup JW Player config
+    let playerSetup = {
+        file: channel.url,
+        type: channel.type === "hls" ? "hls" : "dash",
+        width: "100%",
+        aspectratio: "16:9",
+        autostart: true,
+        mute: false
+    };
 
-        if (!channel.name || !channel.url) {
-            console.error("Skipping invalid channel:", channel);
-            return;
+    // Add DRM if available
+    if (channel.drm) {
+        playerSetup.drm = {};
+        if (channel.drm.type === "clearkey") {
+            playerSetup.drm.clearkey = {
+                [channel.drm.keyId]: channel.drm.key
+            };
+        } else if (channel.drm.type === "widevine") {
+            playerSetup.drm.widevine = {
+                url: channel.drm.licenseUrl
+            };
         }
+    }
 
-        const listItem = document.createElement('div');
-        listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-        listItem.tabIndex = 0;
+    // Initialize JW Player
+    jwplayer("player").setup(playerSetup);
+
+    jwplayer("player").on('error', (event) => {
+        console.error("❌ JW Player Error:", event.message);
+    });
+
+    jwplayer("player").on('play', () => {
+        console.log("▶ Playing:", channel.name);
+    });
+}
+
+function populateChannels() {
+    const channelList = document.getElementById('channelList');
+    channelList.innerHTML = '';
+
+    Object.keys(window.channels).forEach(key => {
+        const channel = window.channels[key];
+
+        const listItem = document.createElement('button');
+        listItem.className = 'channel-btn';
         listItem.textContent = channel.name;
         listItem.onclick = () => loadStream(key);
 
         channelList.appendChild(listItem);
     });
 
-    console.log("Channels populated successfully.");
+    console.log("✅ Channels Loaded.");
 }
