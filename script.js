@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const channelList = document.getElementById("channelList");
 
-    // Check if channels.js is properly loaded
     if (!channels || channels.length === 0) {
         console.error("Error: No channels loaded from channels.js");
         return;
@@ -21,36 +20,25 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function playStream(channel) {
-    console.log("Playing Channel:", channel.name); // Debugging
-
+    console.log("Playing:", channel.name);
     let playerSetup = {
         file: channel.streamUrl,
-        type: "dash", // Default to DASH for MPD files
         width: "100%",
         height: 400,
-        autostart: true
+        autostart: true,
+        type: channel.streamUrl.includes(".m3u8") ? "hls" : "dash"
     };
 
-    if (channel.streamUrl.endsWith(".m3u8")) {
-        playerSetup.type = "hls"; // Force HLS for .m3u8 files
-    }
-
     // Add DRM if available
-    if (channel.drm) {
-        console.log("DRM detected for:", channel.name, channel.drm);
-        playerSetup.drm = {};
-
-        if (channel.drm.type === "clearkey" && channel.drm.keys) {
-            playerSetup.drm.clearkey = {
-                keys: channel.drm.keys
-            };
-            console.log("ClearKey DRM Keys:", channel.drm.keys); // Debugging
-        } else {
-            console.error("Error: ClearKey DRM keys are missing or incorrectly formatted for", channel.name);
-        }
-    } else {
-        console.log("No DRM for:", channel.name);
+    if (channel.drm && channel.drm.type === "clearkey" && channel.drm.keys) {
+        console.log("Applying ClearKey DRM:", channel.drm.keys);
+        playerSetup.drm = {
+            clearkey: { keys: channel.drm.keys }
+        };
     }
+
+    // Debugging output
+    console.log("JW Player Setup:", playerSetup);
 
     // Initialize JW Player
     jwplayer("player").setup(playerSetup);
