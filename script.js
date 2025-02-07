@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     const channelList = document.getElementById("channelList");
 
+    // Check if channels.js is properly loaded
+    if (!channels || channels.length === 0) {
+        console.error("Error: No channels loaded from channels.js");
+        return;
+    }
+
     // Load channels dynamically
     channels.forEach(channel => {
         const card = document.createElement("div");
@@ -34,15 +40,13 @@ function playStream(channel) {
         console.log("DRM detected for:", channel.name, channel.drm);
         playerSetup.drm = {};
 
-        if (channel.drm.type === "clearkey") {
-            if (channel.drm.keys) {
-                playerSetup.drm.clearkey = {
-                    keys: channel.drm.keys
-                };
-                console.log("ClearKey DRM Keys:", channel.drm.keys); // Debugging
-            } else {
-                console.error("ClearKey DRM keys are missing for", channel.name);
-            }
+        if (channel.drm.type === "clearkey" && channel.drm.keys) {
+            playerSetup.drm.clearkey = {
+                keys: channel.drm.keys
+            };
+            console.log("ClearKey DRM Keys:", channel.drm.keys); // Debugging
+        } else {
+            console.error("Error: ClearKey DRM keys are missing or incorrectly formatted for", channel.name);
         }
     } else {
         console.log("No DRM for:", channel.name);
