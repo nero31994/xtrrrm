@@ -3,71 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPTV Streaming with DRM</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="jwplayer.js"></script>  <!-- Ensure this is properly linked -->
-    <script src="jwpsrv.js"></script>  
-    <script src="channels.js"></script>  <!-- Load external channel list -->
+    <title>IPTV Player</title>
+    <script src="https://ssl.p.jwpcdn.com/player/v/8.36.4/jwplayer.js"></script>
+    <script>
+        jwplayer.key = "ITWMv7t88JGzIOxPwW8IO+LveiXX9SWbfdmt0ArUSyc=";
+    </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    
-    <main>
-        <div id="video-container">
-            <div id="my-video"></div>
-        </div>
+    <h1>IPTV Player</h1>
 
-        <h2>Channels</h2>
-        <div id="channel-list"></div>  <!-- Channels will be inserted here -->
-    </main>
+    <div class="container" id="channelList">
+        <!-- Channels will be dynamically loaded here -->
+    </div>
 
-    <script>
-        // Initialize JW Player with the first channel
-        function setupPlayer(streamUrl, drmConfig = null) {
-            const playerConfig = {
-                file: streamUrl,
-                width: "100%",
-                aspectratio: "16:9",
-                autostart: false,
-                controls: true,
-                licenseKey: "XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo"
-            };
+    <div class="player-container">
+        <div id="player"></div>
+    </div>
 
-            if (drmConfig) {
-                playerConfig.drm = drmConfig;
-            }
+    <script src="channels.js"></script>
+    <script src="script.js"></script>
 
-            jwplayer("my-video").setup(playerConfig);
-        }
-
-        // Load channels dynamically
-        function loadChannels() {
-            const channelList = document.getElementById("channel-list");
-            channelList.innerHTML = "";
-
-            channels.forEach(channel => {
-                const card = document.createElement("div");
-                card.className = "channel-card";
-                card.onclick = () => setupPlayer(channel.url, channel.drm);
-
-                const img = document.createElement("img");
-                img.src = channel.logo;
-                img.alt = channel.name;
-
-                const p = document.createElement("p");
-                p.textContent = channel.name;
-
-                card.appendChild(img);
-                card.appendChild(p);
-                channelList.appendChild(card);
-            });
-        }
-
-        // Load default channel and populate the list
-        window.onload = () => {
-            loadChannels();
-            setupPlayer(channels[0].url, channels[0].drm);
-        };
-    </script>
 </body>
 </html>
