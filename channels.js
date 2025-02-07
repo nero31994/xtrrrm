@@ -1,29 +1,90 @@
 const channels = [
     {
-        name: "Public Channel 1",
-        streamUrl: "https://your-stream-url-1.m3u8",
-        image: "https://via.placeholder.com/200x120/000000/ffffff?text=Public+Channel+1",
-        drm: null // No DRM
-    },
-    {
-        name: "Widevine DRM Channel",
-        streamUrl: "https://your-widevine-stream.mpd",
-        image: "https://via.placeholder.com/200x120/000000/ffffff?text=Widevine+Channel",
+        name: "TV5",
+        streamUrl: "https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd",
+        image: "https://i.imgur.com/jsCBRq0.png",
         drm: {
-            type: "widevine",
-            licenseUrl: "https://your-widevine-license-server.com"
+            type: "clearkey",
+            keys: {
+                "2615129ef2c846a9bbd43a641c7303ef": "07c7f996b1734ea288641a68e1cfdc4d"
+            }
         }
     },
     {
-        name: "ClearKey DRM Channel",
-        streamUrl: "https://your-clearkey-stream.mpd",
-        image: "https://via.placeholder.com/200x120/000000/ffffff?text=ClearKey+Channel",
+        name: "ONE SPORTS",
+        streamUrl: "https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_onesports_hd.mpd",
+        image: "https://i.imgur.com/btiNwYt.png",
         drm: {
             type: "clearkey",
-            licenseUrl: "https://your-clearkey-license-server.com",
             keys: {
-                "key-id": "your-clearkey-key-value"
+                "53c3bf2eba574f639aa21f2d4409ff11": "3de28411cf08a64ea935b9578f6d0edd"
+            }
+        }
+    },
+    {
+        name: "RPTV",
+        streamUrl: "https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cnn_rptv_prod_hd.mpd",
+        image: "https://i.imgur.com/IDCHfXm.png",
+        drm: {
+            type: "clearkey",
+            keys: {
+                "1917f4caf2364e6d9b1507326a85ead6": "a1340a251a5aa63a9b0ea5d9d7f67595"
+            }
+        }
+    },
+    {
+        name: "SARI-SARI",
+        streamUrl: "https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_sari_sari_sd.mpd",
+        image: "https://i.imgur.com/kKuO7LD.png",
+        drm: {
+            type: "clearkey",
+            keys: {
+                "0a7ab3612f434335aa6e895016d8cd2d": "b21654621230ae21714a5cab52daeb9d"
+            }
+        }
+    },
+    {
+        name: "BUKO CH",
+        streamUrl: "https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_buko_sd.mpd",
+        image: "https://i.imgur.com/Du6LQCi.png",
+        drm: {
+            type: "clearkey",
+            keys: {
+                "d273c085f2ab4a248e7bfc375229007d": "7932354c3a84f7fc1b80efa6bcea0615"
+            }
+        }
+    },
+    {
+        name: "ONE NEWS",
+        streamUrl: "https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/onenews_hd1.mpd",
+        image: "https://i.imgur.com/bmP06bk.png",
+        drm: {
+            type: "clearkey",
+            keys: {
+                "d39eb201ae494a0b98583df4d110e8dd": "6797066880d344422abd3f5eda41f45f"
+            }
+        }
+    },
+    {
+        name: "ONE PH",
+        streamUrl: "https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/oneph_sd.mpd",
+        image: "https://i.imgur.com/9dMuFE1.png",
+        drm: {
+            type: "clearkey",
+            keys: {
+                "92834ab4a7e1499b90886c5d49220e46": "a7108d9a6cfcc1b7939eb111daf09ab3"
+            }
+        }
+    },
+    {
+        name: "TRUE FM TV",
+        streamUrl: "https://qp-pldt-live-grp-08-prod.akamaized.net/out/u/truefm_tv.mpd",
+        image: "https://i.imgur.com/U8L0Liq.png",
+        drm: {
+            type: "clearkey",
+            keys: {
+                "0559c95496d44fadb94105b9176c3579": "40d8bb2a46ffd03540e0c6210ece57ce"
             }
         }
     }
-];
+    ];
